@@ -1,81 +1,81 @@
-/**
- * routes/addresses.js
- *
- * GET    /api/addresses          – list saved addresses for session
- * POST   /api/addresses          – add a new address
- * PUT    /api/addresses/:id      – update an address
- * DELETE /api/addresses/:id      – remove an address
- */
-
-const express = require("express");
-const { v4: uuidv4 } = require("uuid");
-const { db, persist } = require("../db");
-
+const express = require('express');
+const crypto = require('crypto');
 const router = express.Router();
 
-function getStore(req) {
-  const sid = req.session.id;
-  if (!db.addresses[sid]) db.addresses[sid] = [];
-  return db.addresses[sid];
-}
+// Using Maps (Hash Maps) instead of Arrays for O(1) lookups
+const usersDB = new Map();
 
-// ── GET ──────────────────────────────────────────────────────────────────────
-router.get("/", (req, res) => {
-  res.json({ success: true, addresses: getStore(req) });
+// Initialize the default Admin account
+const adminId = crypto.randomUUID();
+usersDB.set('admin@haulsync.com', {
+  id: adminId,
+  identifier: 'admin@haulsync.com', // Can be email or phone
+  password: 'secure-admin-password', // Note: Use bcrypt to hash passwords in production
+  role: 'admin',
+  addresses: new Map() // Addresses stored as a Map, keyed by addressId
 });
 
-// ── POST ─────────────────────────────────────────────────────────────────────
-router.post("/", (req, res) => {
-  const { label, line, city, pincode, isDefault } = req.body;
-  if (!line || !city) {
-    return res.status(400).json({ success: false, error: "line and city are required" });
+// 1. Sign Up Route
+router.post('/signup', (req, res) => {
+  const { identifier, password } = req.body;
+
+  if (!identifier || !password) {
+    return res.status(400).json({ error: 'Email/Phone and password are required.' });
   }
 
-  const store = getStore(req);
+  if (usersDB.has(identifier)) {
+    return res.status(409).json({ error: 'Account with this email or phone already exists.' });
+  }
 
-  // Only one default
-  if (isDefault) store.forEach((a) => (a.isDefault = false));
-
-  const address = {
-    id:        uuidv4(),
-    label:     label   || "Home",
-    line:      line,
-    city:      city,
-    pincode:   pincode || "",
-    isDefault: Boolean(isDefault) || store.length === 0,
-    createdAt: new Date().toISOString(),
+  const newUser = {
+    id: crypto.randomUUID(),
+    identifier,
+    password, 
+    role: 'user',
+    addresses: new Map()
   };
 
-  store.push(address);
-  persist();
-
-  res.status(201).json({ success: true, address });
+  usersDB.set(identifier, newUser);
+  
+  res.status(201).json({ 
+    message: 'Account created successfully', 
+    user: { id: newUser.id, identifier: newUser.identifier, role: newUser.role } 
+  });
 });
 
-// ── PUT ──────────────────────────────────────────────────────────────────────
-router.put("/:id", (req, res) => {
-  const store = getStore(req);
-  const idx = store.findIndex((a) => a.id === req.params.id);
-  if (idx < 0) return res.status(404).json({ success: false, error: "Address not found" });
+// 2. Sign In Route
+router.post('/signin', (req, res) => {
+  const { identifier, password } = req.body;
 
-  if (req.body.isDefault) store.forEach((a) => (a.isDefault = false));
+  const user = usersDB.get(identifier);
 
-  store[idx] = { ...store[idx], ...req.body, id: req.params.id };
-  persist();
-
-  res.json({ success: true, address: store[idx] });
-});
-
-// ── DELETE ───────────────────────────────────────────────────────────────────
-router.delete("/:id", (req, res) => {
-  const store = getStore(req);
-  const before = store.length;
-  db.addresses[req.session.id] = store.filter((a) => a.id !== req.params.id);
-  persist();
-  if (db.addresses[req.session.id].length === before) {
-    return res.status(404).json({ success: false, error: "Address not found" });
+  if (!user || user.password !== password) {
+    return res.status(401).json({ error: 'Invalid credentials.' });
   }
-  res.json({ success: true });
+
+  res.status(200).json({ 
+    message: 'Signed in successfully', 
+    user: { id: user.id, identifier: user.identifier, role: user.role } 
+  });
+});
+
+// 3. Add Address Route
+router.post('/:identifier/addresses', (req, res) => {
+  const { identifier } = req.params;
+  const { street, city, zipCode } = req.body;
+
+  const user = usersDB.get(identifier);
+  if (!user) {
+    return res.status(404).json({ error: 'User not found.' });
+  }
+
+  const addressId = crypto.randomUUID();
+  const newAddress = { addressId, street, city, zipCode };
+
+  // Store the address in the user's specific Address Map
+  user.addresses.set(addressId, newAddress);
+
+  res.status(201).json({ message: 'Address added', addressId });
 });
 
 module.exports = router;
