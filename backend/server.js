@@ -98,6 +98,6 @@ app.use((err, req, res, _next) => {
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`\n🚀 HaulSync API running at http://localhost:${PORT}`);
+  console.log(`\n HaulSync API running at http://localhost:${PORT}`);
   console.log(`   Health: http://localhost:${PORT}/api/health\n`);
 });
