@@ -29,18 +29,18 @@ const PLATFORMS = {
 };
 
 const PRODUCTS = [
-  { id:"p1",  name:"Aashirvaad Whole Wheat Atta 5kg", category:"Staples",    emoji:"🌾", prices:{zepto:280, blinkit:285, instamart:290, jiomart:265} },
-  { id:"p2",  name:"Amul Taaza Toned Milk 1L",        category:"Dairy",      emoji:"🥛", prices:{zepto:72,  blinkit:70,  instamart:70,  jiomart:68 } },
-  { id:"p3",  name:"Maggi 2-Minute Noodles 4-Pack",   category:"Snacks",     emoji:"🍜", prices:{zepto:56,  blinkit:56,  instamart:56,  jiomart:52 } },
-  { id:"p4",  name:"Fortune Sunflower Oil 1L",        category:"Staples",    emoji:"🫙", prices:{zepto:125, blinkit:130, instamart:128, jiomart:115} },
-  { id:"p5",  name:"Mother Dairy Paneer 200g",        category:"Dairy",      emoji:"🧀", prices:{zepto:85,  blinkit:85,  instamart:88,  jiomart:82 } },
-  { id:"p6",  name:"Haldiram's Bhujia Sev 400g",      category:"Snacks",     emoji:"🥨", prices:{zepto:110, blinkit:115, instamart:108, jiomart:105} },
-  { id:"p7",  name:"Surf Excel Easy Wash 1kg",        category:"Home",       emoji:"🧺", prices:{zepto:130, blinkit:130, instamart:132, jiomart:118} },
-  { id:"p8",  name:"Onion (Pyaz) 1kg",               category:"Vegetables", emoji:"🧅", prices:{zepto:35,  blinkit:42,  instamart:38,  jiomart:29 } },
-  { id:"p9",  name:"Britannia 5-Star Cake 6pc",       category:"Snacks",     emoji:"🎂", prices:{zepto:75,  blinkit:75,  instamart:72,  jiomart:70 } },
-  { id:"p10", name:"Tata Salt 1kg",                   category:"Staples",    emoji:"🧂", prices:{zepto:26,  blinkit:26,  instamart:25,  jiomart:24 } },
-  { id:"p11", name:"Fresho Banana 6pc",               category:"Vegetables", emoji:"🍌", prices:{zepto:40,  blinkit:38,  instamart:42,  jiomart:35 } },
-  { id:"p12", name:"Nestle KitKat 4-Finger",          category:"Snacks",     emoji:"🍫", prices:{zepto:45,  blinkit:45,  instamart:43,  jiomart:42 } },
+  { id:"p1",  name:"Aashirvaad Whole Wheat Atta 5kg", category:"Staples",    emoji:"", prices:{zepto:280, blinkit:285, instamart:290, jiomart:265} },
+  { id:"p2",  name:"Amul Taaza Toned Milk 1L",        category:"Dairy",      emoji:"", prices:{zepto:72,  blinkit:70,  instamart:70,  jiomart:68 } },
+  { id:"p3",  name:"Maggi 2-Minute Noodles 4-Pack",   category:"Snacks",     emoji:"", prices:{zepto:56,  blinkit:56,  instamart:56,  jiomart:52 } },
+  { id:"p4",  name:"Fortune Sunflower Oil 1L",        category:"Staples",    emoji:"", prices:{zepto:125, blinkit:130, instamart:128, jiomart:115} },
+  { id:"p5",  name:"Mother Dairy Paneer 200g",        category:"Dairy",      emoji:"", prices:{zepto:85,  blinkit:85,  instamart:88,  jiomart:82 } },
+  { id:"p6",  name:"Haldiram's Bhujia Sev 400g",      category:"Snacks",     emoji:"", prices:{zepto:110, blinkit:115, instamart:108, jiomart:105} },
+  { id:"p7",  name:"Surf Excel Easy Wash 1kg",        category:"Home",       emoji:"", prices:{zepto:130, blinkit:130, instamart:132, jiomart:118} },
+  { id:"p8",  name:"Onion (Pyaz) 1kg",               category:"Vegetables", emoji:"", prices:{zepto:35,  blinkit:42,  instamart:38,  jiomart:29 } },
+  { id:"p9",  name:"Britannia 5-Star Cake 6pc",       category:"Snacks",     emoji:"", prices:{zepto:75,  blinkit:75,  instamart:72,  jiomart:70 } },
+  { id:"p10", name:"Tata Salt 1kg",                   category:"Staples",    emoji:"", prices:{zepto:26,  blinkit:26,  instamart:25,  jiomart:24 } },
+  { id:"p11", name:"Fresho Banana 6pc",               category:"Vegetables", emoji:"", prices:{zepto:40,  blinkit:38,  instamart:42,  jiomart:35 } },
+  { id:"p12", name:"Nestle KitKat 4-Finger",          category:"Snacks",     emoji:"", prices:{zepto:45,  blinkit:45,  instamart:43,  jiomart:42 } },
 ];
 
 const PAYMENT_METHODS_CONFIG = [
