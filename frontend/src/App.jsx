@@ -51,6 +51,52 @@ const PAYMENT_METHODS_CONFIG = [
 ];
 
 // ─── HELPERS ──────────────────────────────────────────────────────────────────
+// ─── CLOCK ────────────────────────────────────────────────────────────────────
+
+function LiveClock({ compact = false }) {
+  const [time, setTime] = useState(nowIST());
+
+  useEffect(() => {
+    const id = setInterval(() => setTime(nowIST()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  const hh = String(time.getHours()).padStart(2, "0");
+  const mm = String(time.getMinutes()).padStart(2, "0");
+  const ss = String(time.getSeconds()).padStart(2, "0");
+  const period = time.getHours() < 12 ? "AM" : "PM";
+  const h12 = time.getHours() % 12 || 12;
+  const dateStr = time.toLocaleDateString("en-IN", { weekday:"short", day:"numeric", month:"short" });
+
+  if (compact) {
+    return (
+      <span className="text-xs font-mono text-zinc-500 tabular-nums">
+        {String(h12).padStart(2,"0")}:{mm}:{ss} {period} IST
+      </span>
+    );
+  }
+
+  return (
+    <div className="px-4 py-3.5 border-t border-zinc-900">
+      <div className="flex items-center gap-2 mb-0.5">
+        <Clock2Icon />
+        <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">IST Clock</span>
+      </div>
+      <div className="font-mono tabular-nums">
+        <span className="text-2xl font-black text-white">
+          {String(h12).padStart(2,"0")}:{mm}
+        </span>
+        <span className="text-lg text-zinc-500">:{ss}</span>
+        <span className="text-xs text-zinc-600 ml-1.5">{period}</span>
+      </div>
+      <p className="text-[11px] text-zinc-600 mt-0.5">{dateStr}</p>
+    </div>
+  );
+}
+
+function Clock2Icon() {
+  return <Clock className="w-3 h-3 text-zinc-600" />;
+}
 
 function cheapestEntry(prices) {
   return Object.entries(prices).reduce((a, b) => (b[1] < a[1] ? b : a));
@@ -1014,7 +1060,7 @@ export default function App() {
         </div>
 
         {/* Live Clock */}
-        <Clock />
+        <LiveClock />
       </aside>
 
       {/* ── Main area ───────────────────────────────────────────────────────── */}
