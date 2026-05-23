@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon: amber cart emoji matching the warm receipt terminal aesthetic -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>" />
+
+    <!-- Primary meta -->
+    <title>HaulSync — Quick-Commerce Price Hunter</title>
+    <meta name="description" content="Compare prices across Zepto, Blinkit, Instamart and JioMart. Build your haul, pick the cheapest platform, checkout once." />
+    <meta name="theme-color" content="#0d0b09" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="HaulSync" />
+    <meta property="og:description" content="India's quick-commerce price comparison & haul tracker." />
+    <meta property="og:type" content="website" />
+
+    <!-- Prevent FOUC: set background immediately before React mounts -->
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body, #root {
+        height: 100%;
+        min-height: 100dvh;
+        background: #0d0b09;
+        color: #faf7f4;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* Suppress scrollbar flash on load */
+      body { overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
